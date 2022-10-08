@@ -72,3 +72,22 @@ int	ft_putnbr(int nb)
 	}
 	return (ft_numlen(nb));
 }
+
+int	ft_print_ptr(unsigned long long ptr)
+{
+	int	len;
+
+	len = 0;
+	if (ptr == 0)
+		len += ft_printchar('0');
+	else if (ptr > 0)
+	{
+		if (ptr >= 16)
+			len += ft_print_ptr(ptr / 16);
+		if ((ptr % 16) > 10)
+			len += ft_printchar('W' + (ptr % 16));
+		else
+			len += ft_printchar('0' + ptr % 16);
+	}
+	return (len);
+}

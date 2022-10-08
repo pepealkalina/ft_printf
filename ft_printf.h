@@ -21,5 +21,6 @@ int	ft_printstr(char *s);
 int	ft_printnbr(int nb);
 int	ft_printdigit(int c);
 int	ft_putnbr(int nb);
+int	ft_print_ptr(unsigned long long ptr);
 
 #endif

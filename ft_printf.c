@@ -13,6 +13,16 @@
 #include "ft_printf.h"
 #include <stdio.h>
 //cspdiuxX %
+int	ft_printp(unsigned long long ptr)
+{
+	int	len;
+
+	len = 0;
+	len += ft_printstr("0x");
+	len += ft_print_ptr(ptr);
+	return (len);
+}
+
 int	ft_check_format(va_list args, char c)
 {
 	int	len;
@@ -26,6 +36,8 @@ int	ft_check_format(va_list args, char c)
 		len += ft_printstr(va_arg(args, char *));
 	else if (c == 'd')
 		len += ft_putnbr(va_arg(args, int));
+	else if (c == 'p')
+		len += ft_printp(va_arg(args, unsigned long long));
 	return (len);
 }
 
@@ -51,13 +63,13 @@ int	ft_printf(char const *str, ...)
 			plen += ft_printchar(str[i]);
 		i++;
 	}
+	va_end(args);
 	return (plen);
 }
 
-/*int	main(void)
+int	main(void)
 {
-	int c = -10;
-
-	printf("\n%i",ft_printf("%d", c));
+	int c = 52;
+	printf("\n%i",ft_printf("%c %d", c, 12));
 	return (0);
-}*/
+}
