@@ -12,82 +12,66 @@
 
 #include "ft_printf.h"
 
-int	ft_printchar(int c)
-{
-	write(1, &c, 1);
-	return (1);
-}
-
-int	ft_printstr(char *s)
-{
-	int	i;
-
-	i = 0;
-	if (!s)
-		return (ft_printstr("(null)"));
-	while (s[i])
-		write(1, &s[i++], 1);
-	return (i);
-}
-
-int	ft_numlen(int i)
-{
-	int	j;
-
-	j = 0;
-	if (i == -2147483648)
-		return (11);
-	if (i == 0)
-		return (1);
-	else if (i < 0)
-	{
-		j++;
-		i = i * -1;
-	}
-	while (i > 0)
-	{
-		i = i / 10;
-		j++;
-	}
-	return (j);
-}
-
-int	ft_putnbr(int nb)
-{
-	if (nb == -2147483648)
-	{
-		ft_putnbr(nb / 10);
-		ft_printchar('8');
-	}
-	else if (nb < 0)
-	{
-		ft_printchar('-');
-		ft_putnbr(-nb);
-	}
-	else
-	{
-		if (nb > 9)
-			ft_putnbr(nb / 10);
-		ft_printchar('0' + (nb % 10));
-	}
-	return (ft_numlen(nb));
-}
-
-int	ft_print_ptr(unsigned long long ptr)
+int	ft_unsignedlen(unsigned int nb)
 {
 	int	len;
 
 	len = 0;
-	if (ptr == 0)
-		len += ft_printchar('0');
-	else if (ptr > 0)
+	if (nb == 0)
+		return (1);
+	while (nb > 0)
 	{
-		if (ptr >= 16)
-			len += ft_print_ptr(ptr / 16);
-		if ((ptr % 16) >= 10)
-			len += ft_printchar('W' + (ptr % 16));
+		nb = nb / 10;
+		len++;
+	}
+	return (len);
+}
+
+int	ft_printu(unsigned int nb)
+{
+	if (nb > 9)
+		ft_printu(nb / 10);
+	ft_printchar('0' + (nb % 10));
+	return (ft_unsignedlen(nb));
+}
+
+int	ft_printp(unsigned long long ptr)
+{
+	int	len;
+
+	len = 0;
+	len += ft_printstr("0x");
+	len += ft_print_ptr(ptr);
+	return (len);
+}
+
+int	ft_printh(long long nbr, int flag)
+{
+	int	len;
+
+	len = 0;
+	if (flag == 0)
+		len += ft_print_ptr(nbr);
+	if (flag == 1)
+		len += ft_print_hex(nbr);
+	return (len);
+}
+
+int	ft_print_hex(long long nbr)
+{
+	int	len;
+
+	len = 0;
+	if (nbr == 0)
+		len += ft_printchar('0');
+	else if (nbr > 0)
+	{
+		if (nbr >= 16)
+			len += ft_print_hex(nbr / 16);
+		if ((nbr % 16) >= 10)
+			len += ft_printchar('7' + (nbr % 16));
 		else
-			len += ft_printchar('0' + ptr % 16);
+			len += ft_printchar('0' + nbr % 16);
 	}
 	return (len);
 }

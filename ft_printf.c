@@ -12,17 +12,7 @@
 
 #include "ft_printf.h"
 #include <stdio.h>
-//cspdiuxX %
-int	ft_printp(unsigned long long ptr)
-{
-	int	len;
-
-	len = 0;
-	len += ft_printstr("0x");
-	len += ft_print_ptr(ptr);
-	return (len);
-}
-
+//cspdiuxX%
 int	ft_check_format(va_list args, char c)
 {
 	int	len;
@@ -38,6 +28,14 @@ int	ft_check_format(va_list args, char c)
 		len += ft_putnbr(va_arg(args, int));
 	else if (c == 'p')
 		len += ft_printp(va_arg(args, unsigned long long));
+	else if (c == 'i')
+		len += ft_putnbr(va_arg(args, int));
+	else if (c == 'u')
+		len += ft_printu(va_arg(args, unsigned int));
+	else if (c == 'x')
+		len += ft_printh(va_arg(args, unsigned long long), 0);
+	else if (c == 'X')
+		len += ft_printh(va_arg(args, unsigned long long), 1);
 	return (len);
 }
 
@@ -45,31 +43,32 @@ int	ft_printf(char const *str, ...)
 {
 	int		i;
 	int		plen;
-	va_list	args;
+	va_list	argu;
 
 	i = 0;
 	plen = 0;
-	va_start(args, str);
+	va_start(argu, str);
 	if (!str)
 		return (-1);
 	while (str[i])
 	{
 		if (str[i] == '%')
 		{
-			plen += ft_check_format(args, str[i + 1]);
+			plen += ft_check_format(argu, str[i + 1]);
 			i++;
 		}
 		else
 			plen += ft_printchar(str[i]);
 		i++;
 	}
-	va_end(args);
+	va_end(argu);
 	return (plen);
 }
 
-int	main(void)
+int main(void)
 {
-	int c = 52;
-	printf("\n%i",ft_printf("%c %d", c, 12));
-	return (0);
+	int c = -6000023;
+	printf("\n%i", ft_printf("%x", c));
+	printf("\n%X", c);
+	return 0;
 }

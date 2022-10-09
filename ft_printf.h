@@ -22,5 +22,9 @@ int	ft_printnbr(int nb);
 int	ft_printdigit(int c);
 int	ft_putnbr(int nb);
 int	ft_print_ptr(unsigned long long ptr);
+int	ft_printu(unsigned int nb);
+int	ft_print_hex(long long nbr);
+int	ft_printp(unsigned long long ptr);
+int	ft_printh(long long nbr, int flag);
 
 #endif
