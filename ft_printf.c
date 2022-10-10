@@ -6,12 +6,13 @@
 /*   By: preina-g <preina-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 15:48:32 by preina-g          #+#    #+#             */
-/*   Updated: 2022/10/07 19:41:36 by preina-g         ###   ########.fr       */
+/*   Updated: 2022/10/10 12:10:40 by preina-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 #include <stdio.h>
+#include <limits.h>
 //cspdiuxX%
 int	ft_check_format(va_list args, char c)
 {
@@ -33,9 +34,9 @@ int	ft_check_format(va_list args, char c)
 	else if (c == 'u')
 		len += ft_printu(va_arg(args, unsigned int));
 	else if (c == 'x')
-		len += ft_printh(va_arg(args, unsigned long long), 0);
+		len += ft_print_hex_low(va_arg(args, unsigned int));
 	else if (c == 'X')
-		len += ft_printh(va_arg(args, unsigned long long), 1);
+		len += ft_print_hex_up(va_arg(args, unsigned int));
 	return (len);
 }
 
@@ -63,12 +64,4 @@ int	ft_printf(char const *str, ...)
 	}
 	va_end(argu);
 	return (plen);
-}
-
-int main(void)
-{
-	int c = -6000023;
-	printf("\n%i", ft_printf("%x", c));
-	printf("\n%X", c);
-	return 0;
 }
