@@ -6,14 +6,32 @@
 /*   By: preina-g <preina-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 15:48:32 by preina-g          #+#    #+#             */
-/*   Updated: 2022/10/10 12:10:40 by preina-g         ###   ########.fr       */
+/*   Updated: 2022/10/10 13:13:25 by preina-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 #include <stdio.h>
 #include <limits.h>
-//cspdiuxX%
+
+//funciones para gestionar y printchar
+
+int	ft_printchar(int c)
+{
+	write(1, &c, 1);
+	return (1);
+}
+
+int	ft_printp(unsigned long long ptr)
+{
+	int	len;
+
+	len = 0;
+	len += ft_printstr("0x");
+	len += ft_print_ptr(ptr);
+	return (len);
+}
+
 int	ft_check_format(va_list args, char c)
 {
 	int	len;
@@ -32,11 +50,11 @@ int	ft_check_format(va_list args, char c)
 	else if (c == 'i')
 		len += ft_putnbr(va_arg(args, int));
 	else if (c == 'u')
-		len += ft_printu(va_arg(args, unsigned int));
+		len += ft_putnbr(va_arg(args, unsigned int));
 	else if (c == 'x')
-		len += ft_print_hex_low(va_arg(args, unsigned int));
+		len += ft_print_ptr(va_arg(args, unsigned int));
 	else if (c == 'X')
-		len += ft_print_hex_up(va_arg(args, unsigned int));
+		len += ft_print_hex(va_arg(args, unsigned int));
 	return (len);
 }
 

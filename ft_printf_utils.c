@@ -6,17 +6,11 @@
 /*   By: preina-g <preina-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 15:48:42 by preina-g          #+#    #+#             */
-/*   Updated: 2022/10/07 19:39:57 by preina-g         ###   ########.fr       */
+/*   Updated: 2022/10/10 13:13:22 by preina-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
-
-int	ft_printchar(int c)
-{
-	write(1, &c, 1);
-	return (1);
-}
 
 int	ft_printstr(char *s)
 {
@@ -30,7 +24,7 @@ int	ft_printstr(char *s)
 	return (i);
 }
 
-int	ft_numlen(int i)
+int	ft_numlen(long i)
 {
 	int	j;
 
@@ -52,7 +46,7 @@ int	ft_numlen(int i)
 	return (j);
 }
 
-int	ft_putnbr(int nb)
+int	ft_putnbr(long nb)
 {
 	if (nb == -2147483648)
 	{
@@ -88,6 +82,25 @@ int	ft_print_ptr(unsigned long long ptr)
 			len += ft_printchar('W' + (ptr % 16));
 		else
 			len += ft_printchar('0' + ptr % 16);
+	}
+	return (len);
+}
+
+int	ft_print_hex(unsigned int nbr)
+{
+	int	len;
+
+	len = 0;
+	if (nbr == 0)
+		len += ft_printchar('0');
+	else if (nbr > 0)
+	{
+		if (nbr >= 16)
+			len += ft_print_hex(nbr / 16);
+		if ((nbr % 16) >= 10)
+			len += ft_printchar('7' + (nbr % 16));
+		else
+			len += ft_printchar('0' + nbr % 16);
 	}
 	return (len);
 }
